@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel Onyewelu — mazidollars</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080810;
+    --bg2: #0f0f1e;
+    --bg3: #151528;
+    --pink: #e91e8c;
+    --purple: #a855f7;
+    --gold: #f59e0b;
+    --teal: #06b6d4;
+    --white: #f0eeff;
+    --muted: #8b8aaa;
+    --border: rgba(168, 85, 247, 0.15);
+    --font-head: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(8, 8, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 60%, rgba(233, 30, 140, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(168, 85, 247, 0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 50% 90%, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--pink);
+    border: 0.5px solid rgba(233, 30, 140, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(4rem, 10vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 .line1 { display: block; color: var(--white); }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 1.5rem 0 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.85rem 2rem;
+    border: 0.5px solid rgba(168, 85, 247, 0.4);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background: rgba(168, 85, 247, 0.1); border-color: var(--purple); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, var(--gold), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  .hero-visual {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .apex-emblem {
+    width: 400px; height: 400px;
+    position: relative;
+    animation: rotate-slow 20s linear infinite;
+  }
+  @keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--pink);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); max-width: 600px; margin-bottom: 3rem; }
+
+  /* ABOUT */
+  .about { background: var(--bg2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .about-card {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+  .about-card-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
+  .chip {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+  }
+  .chip-pink { background: rgba(233, 30, 140, 0.1); color: var(--pink); border: 0.5px solid rgba(233, 30, 140, 0.2); }
+  .chip-purple { background: rgba(168, 85, 247, 0.1); color: var(--purple); border: 0.5px solid rgba(168, 85, 247, 0.2); }
+  .chip-teal { background: rgba(6, 182, 212, 0.1); color: var(--teal); border: 0.5px solid rgba(6, 182, 212, 0.2); }
+  .chip-gold { background: rgba(245, 158, 11, 0.1); color: var(--gold); border: 0.5px solid rgba(245, 158, 11, 0.2); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .project-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .project-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+  .project-thumb {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-thumb-1 { background: linear-gradient(135deg, #0f0f2e 0%, #1a0a2e 100%); color: var(--purple); }
+  .project-thumb-2 { background: linear-gradient(135deg, #0a1a0f 0%, #0f2a1a 100%); color: #22c55e; }
+  .project-thumb-3 { background: linear-gradient(135deg, #1a0a0f 0%, #2a0f1a 100%); color: var(--pink); }
+  .project-thumb-4 { background: linear-gradient(135deg, #0f1a1a 0%, #0a2a2a 100%); color: var(--teal); }
+  .project-body { padding: 1.5rem; }
+  .project-tag { font-size: 11px; font-family: var(--font-mono); color: var(--muted); letter-spacing: 1px; margin-bottom: 0.5rem; }
+  .project-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* SKILLS */
+  .skills { background: var(--bg2); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .skill-card {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .skill-card:hover { border-color: var(--pink); }
+  .skill-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 1rem;
+  }
+  .skill-icon-pink { background: rgba(233, 30, 140, 0.1); }
+  .skill-icon-purple { background: rgba(168, 85, 247, 0.1); }
+  .skill-icon-teal { background: rgba(6, 182, 212, 0.1); }
+  .skill-icon-gold { background: rgba(245, 158, 11, 0.1); }
+  .skill-card-title { font-weight: 600; margin-bottom: 0.4rem; }
+  .skill-card-text { font-size: 13px; color: var(--muted); }
+
+  /* SOCIALS / CTA */
+  .socials-section {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .socials-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(233, 30, 140, 0.12) 0%, transparent 70%);
+  }
+  .socials-section .section-title { margin-bottom: 1rem; }
+  .socials-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+    border: 0.5px solid transparent;
+  }
+  .social-pill:hover { transform: translateY(-3px); opacity: 0.85; }
+  .social-twitch { background: rgba(100, 65, 165, 0.2); color: #bf94e4; border-color: rgba(100, 65, 165, 0.4); }
+  .social-yt { background: rgba(255, 0, 0, 0.15); color: #ff6b6b; border-color: rgba(255, 0, 0, 0.25); }
+  .social-ig { background: rgba(233, 30, 140, 0.15); color: var(--pink); border-color: rgba(233, 30, 140, 0.3); }
+  .social-email { background: rgba(6, 182, 212, 0.15); color: var(--teal); border-color: rgba(6, 182, 212, 0.3); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer .logo {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.25s; }
+  .delay-3 { animation-delay: 0.4s; }
+  .delay-4 { animation-delay: 0.55s; }
+  .delay-5 { animation-delay: 0.7s; }
+
+  /* HAMBURGER MENU */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(8, 8, 16, 0.97);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-head);
+    font-size: 3rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--pink); }
+
+  /* TABLET */
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .hero { padding: 0 2rem; }
+    .hero-visual { width: 40%; }
+    .apex-emblem { width: 300px; height: 300px; }
+    section { padding: 5rem 2rem; }
+    .about-grid { gap: 2.5rem; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .nav-cta-btn { display: none; }
+    .hamburger { display: flex; }
+
+    .hero {
+      min-height: 100svh;
+      padding: 5rem 1.25rem 3rem;
+      align-items: flex-start;
+      padding-top: 5rem;
+    }
+    .hero-content { max-width: 100%; padding-top: 1.5rem; }
+    .hero-visual { display: none; }
+
+    .hero h1 { font-size: clamp(3.2rem, 14vw, 5rem); }
+    .hero-sub { font-size: 0.95rem; margin: 1rem 0 2rem; }
+    .hero-ctas { flex-direction: column; gap: 0.75rem; }
+    .btn-primary, .btn-outline { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 15px; }
+
+    .hero-stats {
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-num { font-size: 2rem; }
+    .stat-label { font-size: 11px; }
+
+    section { padding: 3.5rem 1.25rem; }
+    .section-title { font-size: clamp(2rem, 9vw, 3rem); }
+
+    .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-card { padding: 1.25rem; }
+
+    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .project-thumb { height: 140px; }
+
+    .skills-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .skill-card { padding: 1.1rem; }
+    .skill-card-title { font-size: 14px; }
+    .skill-card-text { font-size: 12px; }
+
+    .socials-links { flex-direction: column; align-items: center; gap: 0.75rem; }
+    .social-pill { width: 100%; max-width: 280px; justify-content: center; padding: 0.85rem 1.5rem; }
+
+    #connect { padding: 3.5rem 1.25rem; }
+    #connect .btn-primary { width: 100%; justify-content: center; max-width: 320px; }
+
+    footer {
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+      font-size: 12px;
+    }
+    footer .logo { font-size: 1.4rem; }
+
+    #projects { padding: 3.5rem 1.25rem; }
+    #skills { padding: 3.5rem 1.25rem; }
+  }
+
+  @media (max-width: 400px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: clamp(2.8rem, 16vw, 4rem); }
+    .hero-tag { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">MAZI</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <a href="#connect" class="btn-primary nav-cta-btn" style="padding: 0.6rem 1.4rem; font-size: 13px;">Let's Work</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+  <a href="#connect" onclick="closeMobileMenu()">Connect</a>
+  <a href="mailto:mazidollars21@gmail.com" class="btn-primary" style="font-size:1rem; padding: 0.9rem 2.5rem; border-radius:4px; font-family: var(--font-body);">Let's Work</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag fade-up delay-1">Available for projects</div>
+    <h1 class="fade-up delay-2">
+      <span class="line1">EMMANUEL</span>
+      <span class="line2">ONYEWELU</span>
+    </h1>
+    <p class="hero-sub fade-up delay-3">
+      Computer Engineer. Web Developer. Sales Pro. <strong>Apex Legends menace.</strong><br>
+      Based in Kyiv, Ukraine — building the web by day, dropping squads by night.
+    </p>
+    <div class="hero-ctas fade-up delay-4">
+      <a href="#projects" class="btn-primary">View My Work ↓</a>
+      <a href="#connect" class="btn-outline">Connect With Me</a>
+    </div>
+    <div class="hero-stats fade-up delay-5">
+      <div>
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Kills in Apex</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Built Different</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated geometric Apex-style emblem -->
+  <div class="hero-visual">
+    <svg class="apex-emblem" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e91e8c" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#a855f7" stop-opacity="0.6"/>
+        </linearGradient>
+      </defs>
+      <!-- Outer rings -->
+      <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(168,85,247,0.1)" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(233,30,140,0.08)" stroke-width="0.5"/>
+      <!-- Rotating dashes -->
+      <circle cx="200" cy="200" r="150" fill="none" stroke="url(#hg1)" stroke-width="1" stroke-dasharray="20 10"/>
+      <circle cx="200" cy="200" r="130" fill="none" stroke="rgba(6,182,212,0.3)" stroke-width="0.5" stroke-dasharray="8 16"/>
+      <!-- Diamond shape -->
+      <polygon points="200,60 310,200 200,290 90,200" fill="none" stroke="url(#hg1)" stroke-width="1.5"/>
+      <polygon points="200,100 270,200 200,260 130,200" fill="rgba(168,85,247,0.05)" stroke="rgba(168,85,247,0.3)" stroke-width="0.5"/>
+      <!-- Center -->
+      <circle cx="200" cy="200" r="20" fill="rgba(233,30,140,0.2)" stroke="var(--pink)" stroke-width="1"/>
+      <circle cx="200" cy="200" r="8" fill="#e91e8c"/>
+      <!-- Corner dots -->
+      <circle cx="200" cy="50" r="4" fill="rgba(233,30,140,0.6)"/>
+      <circle cx="350" cy="200" r="4" fill="rgba(168,85,247,0.6)"/>
+      <circle cx="200" cy="350" r="4" fill="rgba(6,182,212,0.6)"/>
+      <circle cx="50" cy="200" r="4" fill="rgba(245,158,11,0.6)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">// who i am</p>
+      <h2 class="section-title">The Real <span style="background: linear-gradient(90deg,var(--pink),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Deal</span></h2>
+      <p class="section-sub">
+        I'm Emmanuel — a Computer Engineer and Sales Account Manager with 7+ years of experience managing client relationships, closing deals, and building technical solutions. I graduated from the National Aviation University in Kyiv with a degree in Computer Engineering.
+      </p>
+      <p style="color: var(--muted); font-size: 14px; line-height: 1.9;">
+        When I'm not working, I'm streaming Apex Legends on Twitch as <strong style="color:var(--purple);">mazideath</strong>, posting content on YouTube as <strong style="color:var(--pink);">@Mazidollars</strong>, making music, cooking, or playing piano. I'm the person who genuinely does it all — and does it well.
+      </p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="about-card">
+        <div class="about-card-title">// tech stack</div>
+        <div class="skill-chips">
+          <span class="chip chip-pink">Python</span>
+          <span class="chip chip-purple">HTML/CSS</span>
+          <span class="chip chip-teal">JavaScript</span>
+          <span class="chip chip-gold">OBS Studio</span>
+          <span class="chip chip-pink">PC Building</span>
+          <span class="chip chip-purple">CRM Software</span>
+          <span class="chip chip-teal">Network Troubleshoot</span>
+          <span class="chip chip-gold">Windows OS</span>
+          <span class="chip chip-pink">BIOS Optimization</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-title">// current status</div>
+        <div style="display:flex; flex-direction:column; gap: 0.6rem; margin-top: 0.5rem;">
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite;"></span>
+            <span style="color:var(--muted);">Available for web projects</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#6441a5;display:inline-block;animation:pulse 2s infinite;animation-delay:0.5s;"></span>
+            <span style="color:var(--muted);">Streaming on Twitch: mazideath</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;animation:pulse 2s infinite;animation-delay:1s;"></span>
+            <span style="color:var(--muted);">Based in Kyiv, Ukraine</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding: 6rem 3rem;">
+  <p class="section-label">// what i've built</p>
+  <h2 class="section-title">Projects & <span style="background: linear-gradient(90deg,var(--teal),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Work</span></h2>
+  <p class="section-sub">A selection of websites and projects I've designed and developed.</p>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-thumb project-thumb-1">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <polygon points="40,10 68,60 12,60" fill="none" stroke="#a855f7" stroke-width="2"/>
+          <polygon points="40,25 56,55 24,55" fill="rgba(168,85,247,0.15)" stroke="rgba(168,85,247,0.4)" stroke-width="1"/>
+          <circle cx="40" cy="40" r="5" fill="#a855f7"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Web Development</div>
+        <div class="project-title">Streamer Portfolio Site</div>
+        <div class="project-desc">A personal brand website built for a Twitch streamer — featuring dark theme, animated hero, and social integrations.</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb project-thumb-2">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <rect x="10" y="20" width="60" height="40" rx="4" fill="none" stroke="#22c55e" stroke-width="2"/>
+          <line x1="10" y1="32" x2="70" y2="32" stroke="#22c55e" stroke-width="1" opacity="0.5"/>
+          <circle cx="20" cy="26" r="3" fill="#22c55e" opacity="0.6"/>
+          <circle cx="30" cy="26" r="3" fill="#22c55e" opacity="0.4"/>
+          <circle cx="40" cy="26" r="3" fill="#22c55e" opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Web Development</div>
+        <div class="project-title">Business Landing Page</div>
+        <div class="project-desc">A clean, conversion-focused landing page for a small business — responsive design with contact form and CTA sections.</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb project-thumb-3">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="28" fill="none" stroke="#e91e8c" stroke-width="2"/>
+          <circle cx="40" cy="40" r="18" fill="rgba(233,30,140,0.1)" stroke="rgba(233,30,140,0.3)" stroke-width="1"/>
+          <line x1="40" y1="12" x2="40" y2="68" stroke="rgba(233,30,140,0.3)" stroke-width="1"/>
+          <line x1="12" y1="40" x2="68" y2="40" stroke="rgba(233,30,140,0.3)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Python Automation</div>
+        <div class="project-title">Client Data Automation</div>
+        <div class="project-desc">Python script for automating CRM data entry and client follow-up workflows — saving hours of manual work per week.</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb project-thumb-4">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <rect x="15" y="25" width="50" height="30" rx="6" fill="none" stroke="#06b6d4" stroke-width="2"/>
+          <rect x="30" y="55" width="20" height="6" fill="rgba(6,182,212,0.3)" stroke="none"/>
+          <rect x="20" y="68" width="40" height="3" rx="1.5" fill="rgba(6,182,212,0.2)" stroke="none"/>
+          <circle cx="40" cy="40" r="6" fill="rgba(6,182,212,0.2)" stroke="#06b6d4" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Web Development</div>
+        <div class="project-title">PC Build Showcase Site</div>
+        <div class="project-desc">A showcase website for custom PC builds — featuring component specs, benchmarks, and pricing breakdowns.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div style="max-width:1100px; margin: 0 auto;">
+    <p class="section-label">// what i do</p>
+    <h2 class="section-title">Skills & <span style="background: linear-gradient(90deg,var(--gold),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Expertise</span></h2>
+    <p class="section-sub">7+ years across tech, sales, and content creation. I wear a lot of hats — and pull them all off.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-purple">💻</div>
+        <div class="skill-card-title">Web Development</div>
+        <div class="skill-card-text">Building responsive, fast, and visually sharp websites from scratch using HTML, CSS, JavaScript, and Python.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-pink">🖥️</div>
+        <div class="skill-card-title">IT & PC Hardware</div>
+        <div class="skill-card-text">Custom PC building, BIOS optimization, thermal management, hardware troubleshooting, and system maintenance.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-teal">🤝</div>
+        <div class="skill-card-title">Sales & CRM</div>
+        <div class="skill-card-text">7+ years closing deals, managing client relationships, and turning difficult situations into long-term loyalty.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-gold">🎮</div>
+        <div class="skill-card-title">Streaming & Content</div>
+        <div class="skill-card-text">Live streaming on Twitch with OBS Studio, content creation for YouTube, and growing a personal brand online.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-pink">🐍</div>
+        <div class="skill-card-title">Python Scripting</div>
+        <div class="skill-card-text">Automation scripts, workflow tools, and basic data processing to streamline business and technical tasks.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon skill-icon-purple">🌐</div>
+        <div class="skill-card-title">Network & Systems</div>
+        <div class="skill-card-text">Network troubleshooting, Windows OS management, clean installations, and streaming environment setup.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="socials-section" id="connect" style="padding: 6rem 3rem;">
+  <div class="socials-bg"></div>
+  <div style="position:relative; z-index:2; max-width:700px; margin:0 auto;">
+    <p class="section-label">// let's link</p>
+    <h2 class="section-title">Find Me <span style="background: linear-gradient(90deg,var(--pink),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Everywhere</span></h2>
+    <p style="color:var(--muted); margin-bottom: 2rem;">Whether you want to hire me, collab, watch me frag, or just say what's good — I'm right here.</p>
+    <a href="mailto:mazidollars21@gmail.com" class="btn-primary" style="margin-bottom: 2rem; display: inline-flex;">📧 mazidollars21@gmail.com</a>
+    <div class="socials-links">
+      <a href="https://twitch.tv/mazideath" target="_blank" class="social-pill social-twitch">🟣 twitch.tv/mazideath</a>
+      <a href="https://youtube.com/@Mazidollars" target="_blank" class="social-pill social-yt">▶️ @Mazidollars</a>
+      <a href="https://instagram.com/mazidollarsz_" target="_blank" class="social-pill social-ig">📸 @mazidollarsz_</a>
+      <a href="mailto:mazidollars21@gmail.com" class="social-pill social-email">✉️ Email Me</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">MAZIDOLLARS</div>
+  <div>Built by Emmanuel Onyewelu · Kyiv, Ukraine · 2025</div>
+  <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+    <a href="https://twitch.tv/mazideath" style="color:var(--muted); text-decoration:none; font-size:13px;" target="_blank">Twitch</a>
+    <a href="https://youtube.com/@Mazidollars" style="color:var(--muted); text-decoration:none; font-size:13px;" target="_blank">YouTube</a>
+    <a href="https://instagram.com/mazidollarsz_" style="color:var(--muted); text-decoration:none; font-size:13px;" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
